@@ -21,9 +21,12 @@ class Game:
         self.player_monsters = [Monster(name, self.back_surfs[name]) for name in player_monster_list]
         self.monster = self.player_monsters[0]
         self.all_sprites.add(self.monster)
+        self.rand_monster = random.choice(player_monster_list)
+        self.opponent = Opponent(self.rand_monster, self.front_surfs[self.rand_monster], self.all_sprites)
 
     def import_assets(self):
         self.back_surfs = folder_importer('images', 'back')
+        self.front_surfs = folder_importer('images', 'front')
         self.bg_surfs = folder_importer('images', 'other')
 
     def run(self):
