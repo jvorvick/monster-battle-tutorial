@@ -11,11 +11,14 @@ class UI:
         # control
         self.general_options = ['attack', 'heal', 'switch', 'escape']
         self.general_index = {'col': 0, 'row': 0}
+        self.state = 'general'
 
     def input(self):
         keys = pygame.key.get_just_pressed()
-        self.general_index['row'] += int(keys[pygame.K_DOWN]) - int(keys[pygame.K_UP])
-        self.general_index['col'] += int(keys[pygame.K_RIGHT]) - int(keys[pygame.K_LEFT])
+        self.general_index['row'] = (self.general_index['row'] + int(keys[pygame.K_DOWN]) - int(keys[pygame.K_UP])) % 2
+        self.general_index['col'] = (self.general_index['col'] + int(keys[pygame.K_RIGHT]) - int(keys[pygame.K_LEFT])) % 2
+        if keys[pygame.K_SPACE]:
+            self.state = self.general_options[self.general_index['col'] + self.general_index['row'] * 2]
 
     def general(self):
         # bg
@@ -40,4 +43,5 @@ class UI:
         self.input()
 
     def draw(self):
-        self.general()
+        match self.state:
+            case 'general': self.general()
